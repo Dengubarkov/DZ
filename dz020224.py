@@ -1,8 +1,9 @@
 students = {}
 for i in range(int(input("Введите количество студентов: "))):
     print("Введите данные студента",i+1)
-    students["Student-"+str(i+1)]={"Fname":input("Введите фамилию: "),"Name":input("Введите имя: "),
-                                 "Score":int(input("Балл: "))}
+    students["Student-"+str(i+1)]={"Fname":input("Введите фамилию: "),
+                                   "Name":input("Введите имя: "),
+                                   "Score":int(input("Балл: "))}
 scores = 0
 for i in students.items():
     scores += students[i[0]]["Score"]
