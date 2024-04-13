@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from math import sqrt, sin
+from math import sqrt
 
 
 class Shape(ABC):
