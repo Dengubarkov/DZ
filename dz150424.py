@@ -26,9 +26,10 @@ print(f'Users {users} complete {max_complete }')
 data_for_json = list()
 for i in todos:
     if str(i['userId']) in users:
-        data_for_json.append(i)
+        if i['completed']:
+            data_for_json.append(i)
 with open("DZ1504.json", 'w') as f:
     json.dump(data_for_json,f,indent=2)
-    
+
 
 
