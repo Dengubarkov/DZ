@@ -1,0 +1,95 @@
+1.	Сосчитать количество клиентов, покупающих товар.
+select count(client)
+from client
+
+2.	Сколько посредников поставляют товар для фирмы.
+select count(sg.innseller)
+from sallerGoods sg
+
+
+3.	Вывести среднюю сумму сделки по проданному товару.
+select round(avg(costunit*count),2) as "Средняя сумма сделки"
+from clientgoods
+
+4.	Посчитать на какую сумму было всего поставлено товара.
+select round(sum(costunit*count),2) as "Стоимость поставленного товара"
+from sallergoods
+
+5.	Определите максимальное количество закупленного товара шт.(кг)
+select max(count)
+from sallergoods
+
+
+
+6.	Какая минимальная сумма покупки, на которую клиент сделал заказ.
+select min(count*Costunit)
+from sallergoods
+
+
+7.	Посчитать на какую сумму было продано товара магазинам.
+
+select sum(cg.costunit*cg.Count) as "Сумма проданного товара магазинам"
+from client c, clientgoods cg
+1.	where c.INNClient=cg.INNClient and c.Status like "магазин"
+
+2.	Сосчитать общее количество видов закупленных фирмой вафель.
+select c.Client, count(sg.goods)
+from sallergoods sg, clientgoods cg, client c
+where c.INNClient=cg.INNClient and cg.ID=sg.ID and (sg.Goods like "%Вафли%" or sg.Goods like "%вафли%")
+
+3.	Выведите среднюю цену на растительное масло (закупочную).
+select avg(costunit)
+from sallergoods
+where goods glob "*[Мм]асло*" and (goods glob "*[Пп]одсолнечное*" or goods glob "*[оО]ливковое*" or goods glob "*[Кк]урузное*")
+
+
+4.	Определите сколько всего было продано килограмм яблок.
+select sum(cg.count)
+from sallergoods sg, clientgoods cg
+where sg.ID=cg.ID and sg.Goods glob "*[яЯ]блок*"
+
+5.	Определите какое количество картофеля закупили кафе.
+select sum(sg.count)
+from sallergoods sg, clientgoods cg, client c
+where c.INNClient=cg.INNClient and sg.ID=cg.ID and sg.Goods glob "*[Кк]артофель*" and c.Status like "кафе"
+
+6.	Посчитать сколько клиентов купили перец черный молотый.
+select count(c.Client)
+from sallergoods sg, clientgoods cg, client c
+where c.INNClient=cg.INNClient and sg.ID=cg.ID and sg.Goods glob "*[Пп]ерец черный молотый*"
+
+7.	Определить сколько наименований товара было куплено у посредников.
+select count(distinct sg.goods)
+from sallergoods sg, clientgoods cg, client c,seller s
+where c.INNClient=cg.INNClient and sg.ID=cg.ID and s.INNSeller=sg.INNSeller and s.Status like "посредник"
+
+8.	Определить минимальную цену за единицу проданного товара.
+select min(cg.CostUnit)
+from clientgoods cg
+9.	Определите минимальную сумму на какую было закуплено товара.
+
+
+10.	Определить максимальную сумму за товар, проданный магазинам.
+select max(sg.CostUnit)
+from clientgoods cg
+
+11.	Определить со сколькими фирмами сотрудничает данная фирма.
+
+12.	Определить минимальную сумму сделки по закупке товара у производителей.
+
+13.	Определить среднюю цену за пачку чая при покупке.
+
+14.	Определите максимальную сумму прибыли за товар, проданный посреднику.
+
+15.	 Определите минимальную прибыль за товар, купленный у посредника.
+
+16.	 Какое количество наименований товара куплено у фирмы.
+
+17.	 Сколько в продаже видов печенья.
+
+18.	 Какая максимальная сумма покупки, на которую клиент сделал заказ.
+
+19.	 Определите среднюю прибыль от перепродажи масла.
+
+20.	 Со сколькими посредниками сотрудничает фирма.
+

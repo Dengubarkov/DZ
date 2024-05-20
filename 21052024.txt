@@ -1,0 +1,120 @@
+1.	Выведите список студентов физико-математического факультета.
+
+2.	Студенты какой кафедры и факультета сдавали социологию.
+SELECT kafedra, decanat
+FROM kafedra
+WHERE kafedra IN (SELECT [kafedra] FROM G WHERE [group] IN 
+(SELECT [group] FROM student WHERE id_st in (select id_st from exzamen where predmet="Социология"))
+)
+
+3.	Выведите кафедры, список студентов, список студентов в алфавитном порядке.
+
+SELECT S.FIO AS "СТУДЕНТ", 
+    (SELECT G.KAFEDRA FROM G g WHERE S."Group"=G."Group") AS "КАФЕДРА"
+FROM STUDENT S
+ORDER BY S.FIO
+
+4.	Вывести номера зачеток только студентов физико-технического факультета.
+
+SELECT N_Z
+FROM ZACHETKI
+WHERE ID_STUDENTA IN (SELECT ID_ST
+	FROM STUDENT
+	WHERE [GROUP] IN (SELECT [GROUP] 
+		FROM G
+		WHERE KAFEDRA IN (SELECT KAFEDRA
+			FROM KAFEDRA
+			WHERE DACANAT="Физико-технический")))
+
+
+5.	Выведите студентов физико-технического факультета сдавших иностранный язык на 5.
+SELECT 	FIO
+FROM STUDENT
+WHERE ID_ST IN (SELECT ID_ST
+		FROM EXZAMEN
+		WHERE PREDMET="Иностр. язык" AND BALL=5) 
+	AND [GROUP] IN (SELECT [GROUP]
+		FROM G
+		WHERE KAFEDRA IN (SELECT KAFEDRA
+			FROM KAFEDRA
+			WHERE DECANAT="Физико-технический"))
+
+
+6.	Подсчитать сколько различных предметов сдавалось в сессию.
+SELECT COUNT(DISTINCT PREDMET)
+FROM EXZAMEN
+WHERE DATA IS NOT NULL
+
+
+7.	Напишите запрос, который выводит средний балл по экзаменам Васильевой.
+
+SELECT S.FIO AS "ФИО", (SELECT ROUND(AVG(E.BALL),2) FROM EXZAMEN E WHERE S.ID_ST=E.ID_ST) AS "СРЕДНИЙ БАЛ"
+FROM STUDENT S
+WHERE S.FIO LIKE "%Васильева%"
+
+8.	Определите сколько человек учится на каждой специальности.
+SELECT SPECIAL, COUNT(ID_ST) AS "COUNT"
+FROM STUDENT
+GROUP BY SPECIAL
+ORDER BY 2
+
+9.	Напишите запрос, который покажет все группы физико-технического факультета.
+
+SELECT [GROUP]
+FROM G
+WHERE KAFEDRA IN (SELECT KAFEDRA FROM KAFEDRA WHERE DECANAT="Физико-технический")
+
+10.	Вывести список фамилий студентов получивших 5 баллов по дифференциальным уравнениям.
+SELECT 	FIO
+FROM STUDENT
+WHERE ID_ST IN (SELECT ID_ST
+		FROM EXZAMEN
+		WHERE PREDMET="Дифференциальные уравнения" AND BALL=5)
+
+11.	Напишите запрос, который покажет,  сколько экзаменов  сдавал Шутов.
+SELECT 	COUNT(PREDMET) as "Зачтенные экзамены студента Шутов"
+FROM EXZAMEN
+WHERE ID_ST IN (SELECT ID_ST
+		FROM STUDENT
+		WHERE FIO LIKE "%Шутов%")
+
+
+12.	Выведите название кафедры студентов, не сдавших хотя бы один экзамен.
+SELECT KAFEDRA
+FROM G
+WHERE [GROUP] IN (SELECT [GROUP] FROM STUDENT WHERE ID_ST IN (SELECT ID_ST FROM EXZAMEN WHERE BALL IS NULL OR BALL<2))
+
+13.	Подсчитать количество кафедр на каждом факультете.
+SELECT DECANAT, COUNT(KAFEDRA) AS COUNT
+FROM KAFEDRA
+GROUP BY DECANAT
+
+14.	Подсчитать количество пятерок на физико-математическом факультете.
+
+SELECT COUNT(BALL) AS "ПОЛУЧЕНО 5 НА ФИЗМАТЕ"
+FROM EXZAMEN
+WHERE ID_ST IN (SELECT ID_ST
+	FROM STUDENT
+	WHERE [GROUP] IN (SELECT [GROUP] 
+		FROM G
+		WHERE KAFEDRA IN (SELECT KAFEDRA
+			FROM KAFEDRA
+			WHERE DECANAT="Физико-математический")))
+
+15.	Определите номера зачетных книжек группы ФТ151
+SELECT N_Z
+FROM ZACHETKI 
+WHERE ID_STUDENTA IN (SELECT ID_ST
+              FROM STUDENT
+		WHERE [GROUP]="ФТ151")
+
+16.	Выведите перечень специальностей физико-математического факультета.
+
+SELECT DISTINCT SPECIAL
+FROM STUDENT
+WHERE [GROUP] IN (SELECT [GROUP]
+	FROM G
+	WHERE KAFEDRA IN (SELECT KAFEDRA
+		FROM KAFEDRA
+		WHERE DECANAT="Физико-математический"))
+
