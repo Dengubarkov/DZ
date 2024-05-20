@@ -1,20 +1,20 @@
-1.	Выведите список студентов физико-математического факультета.
+1.	Р’С‹РІРµРґРёС‚Рµ СЃРїРёСЃРѕРє СЃС‚СѓРґРµРЅС‚РѕРІ С„РёР·РёРєРѕ-РјР°С‚РµРјР°С‚РёС‡РµСЃРєРѕРіРѕ С„Р°РєСѓР»СЊС‚РµС‚Р°.
 
-2.	Студенты какой кафедры и факультета сдавали социологию.
+2.	РЎС‚СѓРґРµРЅС‚С‹ РєР°РєРѕР№ РєР°С„РµРґСЂС‹ Рё С„Р°РєСѓР»СЊС‚РµС‚Р° СЃРґР°РІР°Р»Рё СЃРѕС†РёРѕР»РѕРіРёСЋ.
 SELECT kafedra, decanat
 FROM kafedra
 WHERE kafedra IN (SELECT [kafedra] FROM G WHERE [group] IN 
-(SELECT [group] FROM student WHERE id_st in (select id_st from exzamen where predmet="Социология"))
+(SELECT [group] FROM student WHERE id_st in (select id_st from exzamen where predmet="РЎРѕС†РёРѕР»РѕРіРёСЏ"))
 )
 
-3.	Выведите кафедры, список студентов, список студентов в алфавитном порядке.
+3.	Р’С‹РІРµРґРёС‚Рµ РєР°С„РµРґСЂС‹, СЃРїРёСЃРѕРє СЃС‚СѓРґРµРЅС‚РѕРІ, СЃРїРёСЃРѕРє СЃС‚СѓРґРµРЅС‚РѕРІ РІ Р°Р»С„Р°РІРёС‚РЅРѕРј РїРѕСЂСЏРґРєРµ.
 
-SELECT S.FIO AS "СТУДЕНТ", 
-    (SELECT G.KAFEDRA FROM G g WHERE S."Group"=G."Group") AS "КАФЕДРА"
+SELECT S.FIO AS "РЎРўРЈР”Р•РќРў", 
+    (SELECT G.KAFEDRA FROM G g WHERE S."Group"=G."Group") AS "РљРђР¤Р•Р”Р Рђ"
 FROM STUDENT S
 ORDER BY S.FIO
 
-4.	Вывести номера зачеток только студентов физико-технического факультета.
+4.	Р’С‹РІРµСЃС‚Рё РЅРѕРјРµСЂР° Р·Р°С‡РµС‚РѕРє С‚РѕР»СЊРєРѕ СЃС‚СѓРґРµРЅС‚РѕРІ С„РёР·РёРєРѕ-С‚РµС…РЅРёС‡РµСЃРєРѕРіРѕ С„Р°РєСѓР»СЊС‚РµС‚Р°.
 
 SELECT N_Z
 FROM ZACHETKI
@@ -24,74 +24,74 @@ WHERE ID_STUDENTA IN (SELECT ID_ST
 		FROM G
 		WHERE KAFEDRA IN (SELECT KAFEDRA
 			FROM KAFEDRA
-			WHERE DACANAT="Физико-технический")))
+			WHERE DACANAT="Р¤РёР·РёРєРѕ-С‚РµС…РЅРёС‡РµСЃРєРёР№")))
 
 
-5.	Выведите студентов физико-технического факультета сдавших иностранный язык на 5.
+5.	Р’С‹РІРµРґРёС‚Рµ СЃС‚СѓРґРµРЅС‚РѕРІ С„РёР·РёРєРѕ-С‚РµС…РЅРёС‡РµСЃРєРѕРіРѕ С„Р°РєСѓР»СЊС‚РµС‚Р° СЃРґР°РІС€РёС… РёРЅРѕСЃС‚СЂР°РЅРЅС‹Р№ СЏР·С‹Рє РЅР° 5.
 SELECT 	FIO
 FROM STUDENT
 WHERE ID_ST IN (SELECT ID_ST
 		FROM EXZAMEN
-		WHERE PREDMET="Иностр. язык" AND BALL=5) 
+		WHERE PREDMET="РРЅРѕСЃС‚СЂ. СЏР·С‹Рє" AND BALL=5) 
 	AND [GROUP] IN (SELECT [GROUP]
 		FROM G
 		WHERE KAFEDRA IN (SELECT KAFEDRA
 			FROM KAFEDRA
-			WHERE DECANAT="Физико-технический"))
+			WHERE DECANAT="Р¤РёР·РёРєРѕ-С‚РµС…РЅРёС‡РµСЃРєРёР№"))
 
 
-6.	Подсчитать сколько различных предметов сдавалось в сессию.
+6.	РџРѕРґСЃС‡РёС‚Р°С‚СЊ СЃРєРѕР»СЊРєРѕ СЂР°Р·Р»РёС‡РЅС‹С… РїСЂРµРґРјРµС‚РѕРІ СЃРґР°РІР°Р»РѕСЃСЊ РІ СЃРµСЃСЃРёСЋ.
 SELECT COUNT(DISTINCT PREDMET)
 FROM EXZAMEN
 WHERE DATA IS NOT NULL
 
 
-7.	Напишите запрос, который выводит средний балл по экзаменам Васильевой.
+7.	РќР°РїРёС€РёС‚Рµ Р·Р°РїСЂРѕСЃ, РєРѕС‚РѕСЂС‹Р№ РІС‹РІРѕРґРёС‚ СЃСЂРµРґРЅРёР№ Р±Р°Р»Р» РїРѕ СЌРєР·Р°РјРµРЅР°Рј Р’Р°СЃРёР»СЊРµРІРѕР№.
 
-SELECT S.FIO AS "ФИО", (SELECT ROUND(AVG(E.BALL),2) FROM EXZAMEN E WHERE S.ID_ST=E.ID_ST) AS "СРЕДНИЙ БАЛ"
+SELECT S.FIO AS "Р¤РРћ", (SELECT ROUND(AVG(E.BALL),2) FROM EXZAMEN E WHERE S.ID_ST=E.ID_ST) AS "РЎР Р•Р”РќРР™ Р‘РђР›"
 FROM STUDENT S
-WHERE S.FIO LIKE "%Васильева%"
+WHERE S.FIO LIKE "%Р’Р°СЃРёР»СЊРµРІР°%"
 
-8.	Определите сколько человек учится на каждой специальности.
+8.	РћРїСЂРµРґРµР»РёС‚Рµ СЃРєРѕР»СЊРєРѕ С‡РµР»РѕРІРµРє СѓС‡РёС‚СЃСЏ РЅР° РєР°Р¶РґРѕР№ СЃРїРµС†РёР°Р»СЊРЅРѕСЃС‚Рё.
 SELECT SPECIAL, COUNT(ID_ST) AS "COUNT"
 FROM STUDENT
 GROUP BY SPECIAL
 ORDER BY 2
 
-9.	Напишите запрос, который покажет все группы физико-технического факультета.
+9.	РќР°РїРёС€РёС‚Рµ Р·Р°РїСЂРѕСЃ, РєРѕС‚РѕСЂС‹Р№ РїРѕРєР°Р¶РµС‚ РІСЃРµ РіСЂСѓРїРїС‹ С„РёР·РёРєРѕ-С‚РµС…РЅРёС‡РµСЃРєРѕРіРѕ С„Р°РєСѓР»СЊС‚РµС‚Р°.
 
 SELECT [GROUP]
 FROM G
-WHERE KAFEDRA IN (SELECT KAFEDRA FROM KAFEDRA WHERE DECANAT="Физико-технический")
+WHERE KAFEDRA IN (SELECT KAFEDRA FROM KAFEDRA WHERE DECANAT="Р¤РёР·РёРєРѕ-С‚РµС…РЅРёС‡РµСЃРєРёР№")
 
-10.	Вывести список фамилий студентов получивших 5 баллов по дифференциальным уравнениям.
+10.	Р’С‹РІРµСЃС‚Рё СЃРїРёСЃРѕРє С„Р°РјРёР»РёР№ СЃС‚СѓРґРµРЅС‚РѕРІ РїРѕР»СѓС‡РёРІС€РёС… 5 Р±Р°Р»Р»РѕРІ РїРѕ РґРёС„С„РµСЂРµРЅС†РёР°Р»СЊРЅС‹Рј СѓСЂР°РІРЅРµРЅРёСЏРј.
 SELECT 	FIO
 FROM STUDENT
 WHERE ID_ST IN (SELECT ID_ST
 		FROM EXZAMEN
-		WHERE PREDMET="Дифференциальные уравнения" AND BALL=5)
+		WHERE PREDMET="Р”РёС„С„РµСЂРµРЅС†РёР°Р»СЊРЅС‹Рµ СѓСЂР°РІРЅРµРЅРёСЏ" AND BALL=5)
 
-11.	Напишите запрос, который покажет,  сколько экзаменов  сдавал Шутов.
-SELECT 	COUNT(PREDMET) as "Зачтенные экзамены студента Шутов"
+11.	РќР°РїРёС€РёС‚Рµ Р·Р°РїСЂРѕСЃ, РєРѕС‚РѕСЂС‹Р№ РїРѕРєР°Р¶РµС‚,  СЃРєРѕР»СЊРєРѕ СЌРєР·Р°РјРµРЅРѕРІ  СЃРґР°РІР°Р» РЁСѓС‚РѕРІ.
+SELECT 	COUNT(PREDMET) as "Р—Р°С‡С‚РµРЅРЅС‹Рµ СЌРєР·Р°РјРµРЅС‹ СЃС‚СѓРґРµРЅС‚Р° РЁСѓС‚РѕРІ"
 FROM EXZAMEN
 WHERE ID_ST IN (SELECT ID_ST
 		FROM STUDENT
-		WHERE FIO LIKE "%Шутов%")
+		WHERE FIO LIKE "%РЁСѓС‚РѕРІ%")
 
 
-12.	Выведите название кафедры студентов, не сдавших хотя бы один экзамен.
+12.	Р’С‹РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ РєР°С„РµРґСЂС‹ СЃС‚СѓРґРµРЅС‚РѕРІ, РЅРµ СЃРґР°РІС€РёС… С…РѕС‚СЏ Р±С‹ РѕРґРёРЅ СЌРєР·Р°РјРµРЅ.
 SELECT KAFEDRA
 FROM G
 WHERE [GROUP] IN (SELECT [GROUP] FROM STUDENT WHERE ID_ST IN (SELECT ID_ST FROM EXZAMEN WHERE BALL IS NULL OR BALL<2))
 
-13.	Подсчитать количество кафедр на каждом факультете.
+13.	РџРѕРґСЃС‡РёС‚Р°С‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ РєР°С„РµРґСЂ РЅР° РєР°Р¶РґРѕРј С„Р°РєСѓР»СЊС‚РµС‚Рµ.
 SELECT DECANAT, COUNT(KAFEDRA) AS COUNT
 FROM KAFEDRA
 GROUP BY DECANAT
 
-14.	Подсчитать количество пятерок на физико-математическом факультете.
+14.	РџРѕРґСЃС‡РёС‚Р°С‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ РїСЏС‚РµСЂРѕРє РЅР° С„РёР·РёРєРѕ-РјР°С‚РµРјР°С‚РёС‡РµСЃРєРѕРј С„Р°РєСѓР»СЊС‚РµС‚Рµ.
 
-SELECT COUNT(BALL) AS "ПОЛУЧЕНО 5 НА ФИЗМАТЕ"
+SELECT COUNT(BALL) AS "РџРћР›РЈР§Р•РќРћ 5 РќРђ Р¤РР—РњРђРўР•"
 FROM EXZAMEN
 WHERE ID_ST IN (SELECT ID_ST
 	FROM STUDENT
@@ -99,16 +99,16 @@ WHERE ID_ST IN (SELECT ID_ST
 		FROM G
 		WHERE KAFEDRA IN (SELECT KAFEDRA
 			FROM KAFEDRA
-			WHERE DECANAT="Физико-математический")))
+			WHERE DECANAT="Р¤РёР·РёРєРѕ-РјР°С‚РµРјР°С‚РёС‡РµСЃРєРёР№")))
 
-15.	Определите номера зачетных книжек группы ФТ151
+15.	РћРїСЂРµРґРµР»РёС‚Рµ РЅРѕРјРµСЂР° Р·Р°С‡РµС‚РЅС‹С… РєРЅРёР¶РµРє РіСЂСѓРїРїС‹ Р¤Рў151
 SELECT N_Z
 FROM ZACHETKI 
 WHERE ID_STUDENTA IN (SELECT ID_ST
               FROM STUDENT
-		WHERE [GROUP]="ФТ151")
+		WHERE [GROUP]="Р¤Рў151")
 
-16.	Выведите перечень специальностей физико-математического факультета.
+16.	Р’С‹РІРµРґРёС‚Рµ РїРµСЂРµС‡РµРЅСЊ СЃРїРµС†РёР°Р»СЊРЅРѕСЃС‚РµР№ С„РёР·РёРєРѕ-РјР°С‚РµРјР°С‚РёС‡РµСЃРєРѕРіРѕ С„Р°РєСѓР»СЊС‚РµС‚Р°.
 
 SELECT DISTINCT SPECIAL
 FROM STUDENT
@@ -116,5 +116,5 @@ WHERE [GROUP] IN (SELECT [GROUP]
 	FROM G
 	WHERE KAFEDRA IN (SELECT KAFEDRA
 		FROM KAFEDRA
-		WHERE DECANAT="Физико-математический"))
+		WHERE DECANAT="Р¤РёР·РёРєРѕ-РјР°С‚РµРјР°С‚РёС‡РµСЃРєРёР№"))
 
