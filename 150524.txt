@@ -74,22 +74,53 @@ select max(sg.CostUnit)
 from clientgoods cg
 
 11.	Определить со сколькими фирмами сотрудничает данная фирма.
+select count(distinct s.INNSeller)+ count(distinct c.INNClient) as "Количество партнёров"
+FROM ClientGoods cg, SELLER s, sallergoods sg, client c
+where c.INNClient=cg.INNClient and cg.ID=sg.ID and sg.INNSeller=s.INNSeller
 
 12.	Определить минимальную сумму сделки по закупке товара у производителей.
+select min(sg.costunit*sg.count)
+from sallergoods sg, seller s
+where sg.INNSeller=s.INNSeller and s.Status="производитель"
+
 
 13.	Определить среднюю цену за пачку чая при покупке.
+select avg(cg.costunit) as "Ср Цена за пачку чая"
+from clientgoods cg, sallergoods sg
+where cg.id=sg.id and sg.goods glob "*[Чч]ай*"
 
 14.	Определите максимальную сумму прибыли за товар, проданный посреднику.
+SELECT MAX((CG.COSTUNIT-SG.COSTUNIT)*CG.COUNT) AS "максимальная прибыль от посредника"
+FROM CLIENTGOODS CG, SALLERGOODS SG, CLIENT C
+WHERE CG.ID=SG.ID AND CG.INNCLIENT=C.INNCLIENT AND C.STATUS="посредник"
 
 15.	 Определите минимальную прибыль за товар, купленный у посредника.
+SELECT min((CG.COSTUNIT-SG.COSTUNIT)*SG.COUNT) AS "Минимальная прибыль от посредника"
+FROM CLIENTGOODS CG, SALLERGOODS SG, seller S
+WHERE CG.ID=SG.ID AND sG.INNseller=S.INNseller AND S.STATUS="посредник"
 
 16.	 Какое количество наименований товара куплено у фирмы.
+	SELECT count(distinct Goods) 
+FROM SALLERGOODS
+
 
 17.	 Сколько в продаже видов печенья.
 
+SELECT count(distinct Goods) 
+FROM SALLERGOODS
+where goods glob "*[Пп]еченье*"
 18.	 Какая максимальная сумма покупки, на которую клиент сделал заказ.
+SELECT C.CLIENT, MAX(SG.COUNT*SG.COSTUNIT)
+FROM CLIENT C, CLIENTGOODS CG, SALLERGOODS SG
+WHERE C.INNCLIENT=CG.INNCLIENT AND CG.ID=SG.ID
 
 19.	 Определите среднюю прибыль от перепродажи масла.
-
+SELECT ROUND(AVG((CG.COSTUNIT-SG.COSTUNIT)*CG.COUNT),2) AS "СРЕДНЯЯ ПРИБЫЛЬ ОТ ПРОДАЖИ МАСЛА"
+FROM CLIENTGOODS CG, SALLERGOODS SG
+WHERE CG.ID=SG.ID
 20.	 Со сколькими посредниками сотрудничает фирма.
 
+SELECT C.CLIENT, COUNT(S.STATUS)
+FROM CLIENT C, CLIENTGOODS CG, SALLERGOODS SG, SELLER S
+WHERE C.INNCLIENT=CG.INNCLIENT AND CG.ID=SG.ID AND SG.INNSELLER=S.INNSELLER AND S.STATUS="посредник"
+group by c.client
