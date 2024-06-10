@@ -1,0 +1,33 @@
+body{
+    background: yellow;
+	background-image: url("/static/img/fon_body.png");
+    margin: 0;
+    padding: 0;
+}
+.menu {
+    display: flex;
+    justify-content:  space-around;
+    list-style: none;
+    background: gray;
+    background-image: url("/static/img/fon_menu.png");
+    padding: 20px;
+    margin-top: 0;
+}
+
+.content{
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.flash{
+padding:10px
+}
+.flash.success{
+border: 1px solid #21db56;
+background: #aeffc5;
+}
+.flash.error{
+border: 1px solid #ff4343;
+background: #ff9c9c;
+}
