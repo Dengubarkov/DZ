@@ -1,0 +1,22 @@
+{%extends 'base.html'%}
+
+{%block content%}
+{{super()}}
+{% for cat,msg in get_flashed_messages(True)%}
+<div class="flash {{cat}}">{{msg}}</div>
+{%endfor%}
+<form action="add_book" method="post">
+    <p>Название книги: <input type="text" name="name" required></p>
+    <p>Автор: <input type="text" name="author" required></p>
+    <p>Описание: </p>
+    <p>
+    <textarea name="description" placeholder="Не менее {{ln_desc}} симв." cols="30" rows="10" required></textarea></p>
+        <p>URL: <input type="text" name="url" required></p>
+    <p><input type="submit" value="Отправить"></p>
+</form>
+{%if username and email %}
+<p>Имя: {{username}}</p>
+<p>Email: {{email}}</p>
+<p>Сообщение: {{message}}</p>
+{%endif%}
+{%endblock%}

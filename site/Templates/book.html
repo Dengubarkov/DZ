@@ -1,0 +1,14 @@
+{%extends 'base.html'%}
+
+{%block content%}
+{%block mainmenu%}
+<ul class="menu">
+    {%for m in menu%}
+    <li><a href="../{{m.url}}">{{m.m_name}}</a></li>
+    {%endfor%}
+</ul>
+{%endblock%}
+<h2>{{name}}(автор:{{author}})</h2>
+<p>{{desc}}</p>
+<a href="#">Купить</a>
+{%endblock%}

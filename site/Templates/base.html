@@ -12,6 +12,13 @@
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
 </head>
 <body>
+<h1 align="center">
+{%if title%}
+    {{title}}
+    {%else%}
+    Заголовок отсутствует
+    {%endif%}
+    </h1>
 {%block content%}
 {%block mainmenu%}
 <ul class="menu">
@@ -21,11 +28,7 @@
 </ul>
 {%endblock%}
 <div class="content">
-{%if title%}
-    <h1>{{title}}</h1>
-    {%else%}
-    <h1>Flask</h1>
-    {%endif%}
+
 {%endblock%}
 </div>
 </body>

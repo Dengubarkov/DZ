@@ -31,3 +31,19 @@ background: #aeffc5;
 border: 1px solid #ff4343;
 background: #ff9c9c;
 }
+.books_show{
+margin: 40px;
+padding: 10px;
+background: lightgray;
+}
+#add_book{
+font-weight: bold;
+text-align: center;
+
+}
+#add_book>a{
+color: red;
+}
+#add_book>a:hover{
+color: brown;
+}

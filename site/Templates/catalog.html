@@ -1,6 +1,23 @@
 {%extends 'base.html'%}
 
 {%block content%}
-{{super()}}
-Здесь будет каталог товаров
+{%block mainmenu%}
+<ul class="menu">
+    {%for m in menu%}
+    <li><a href="{{m.url}}">{{m.m_name}}</a></li>
+    {%endfor%}
+</ul>
+{%endblock%}
+
+<p id="add_book"><a href="{{url_for('add_book')}}">Добавить книгу</a></p>
+<div class="books_show">
+    {%for b in books%}
+    <hr>
+    <p><a href="{{ url_for('show_book',b_url=b.url) }}">{{b.name}}</a>({{b.author}})</p>
+    <p>{{b.description[:200]}}<a href="{{ url_for('show_book',b_url=b.url) }}">...</a></p>
+    <hr>
+
+    {%endfor%}
+
+</div>
 {%endblock%}
