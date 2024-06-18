@@ -1,0 +1,26 @@
+{%extends 'bars/base.html'%}
+{%load static%}
+
+{%block content%}
+<h1>Портфолио разработчика</h1>
+<div class="img">
+    <img src="{%static 'bars/logo.jpg' %}">
+
+</div>
+<h2>Бары Челябинска</h2>
+<div class="block">
+    {% for b in bar %}
+    <div class="element">
+        <div>
+        <img src="{{b.image.url}}" alt="">
+    </div>
+    <div class="text">
+        <h2><a href="{{b.url}}" target="_blank">{{b.name}}</a></h2>
+        <h4>Рейтинг: {{b.star}} из 10</h4>
+        <p>{{b.description}}</p>
+        </div>
+    </div>
+    {%endfor%}
+</div>
+
+{%endblock%}
