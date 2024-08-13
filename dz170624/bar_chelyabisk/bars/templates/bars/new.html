@@ -1,0 +1,13 @@
+{%extends 'bars/base.html'%}
+{%load static%}
+
+{%block content%}
+
+<div class="n_box">
+    <h3>{{new.title}}</h3>
+    <h5>{{new.date|date:'d E Y'}}</h5>
+    <p>{{new.text|safe}}</p>
+</div>
+
+
+{%endblock%}

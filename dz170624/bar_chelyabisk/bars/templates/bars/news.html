@@ -1,0 +1,15 @@
+{%extends 'bars/base.html'%}
+{%load static%}
+
+{%block content%}
+
+<h2>Новости Челябинска:</h2>
+{% for new in news %}
+<div class="n_box">
+    <h3><a href="{%url 'selectnew' new.id%}">{{new.title}}</a></h3><hr>
+    <h7>{{new.date|date:'d E Y'}}</h7>
+    <p>{{new.text|truncatechars:200}}</p>
+</div>
+{%endfor%}
+
+{%endblock%}
