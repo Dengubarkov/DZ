@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{%load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Бары Челябинска></title>
+    <link rel="stylesheet" href="{%static 'css/style.css'%}">
+</head>
+<body>
+<div class="menu">
+    <ul>
+
+        {%if user.is_authenticated %}
+                <li class="logo">{{user.username}}</li>
+        <li><a href="{% url 'index'%}">Главная</a></li>
+                <li><a href="{%url 'news'%}">Новости</a></li>
+
+
+                <li><form action="{%url 'logoutuser'%}" method="post">{%csrf_token%} <button class="top">Выйти</button></form></li>
+            {%else%}
+        <li><a href="{% url 'index'%}">Главная</a></li>
+            <li><a href="{%url 'signupuser'%}">Зарегистрироваться</a> </li>
+            <li><a href="{%url 'loginuser'%}">Войти</a> </li>
+            {%endif%}
+
+
+    </ul>
+</div>
+<div class="content">
+    <div class="wrap">
+        <div class="img"><a href="{%url 'index' %}">
+    <img src="{%static 'bars/logo.jpg' %}" class="logo"></a>
+
+</div>
+{%block content%}
+
+{%endblock%}
+    </div>
+</div>
+</body>
+</html>
